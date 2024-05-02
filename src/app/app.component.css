@@ -1,0 +1,27 @@
+app-menuhaut{
+    height: 4rem;
+    z-index: 2;
+}
+.hautfixe{
+    position: fixed;
+    background-color: blue;
+}
+
+.divprincipale{
+    z-index: -0;
+    background-color: bisque;
+    height: 1500px;
+    background-color: transparent;
+    display: inline-block;
+    justify-content: space-between;
+}
+.droitediv{
+    z-index: -0;
+    margin-left: 450px;
+    margin-top: 200px;
+    height: 100%;
+    width: 800px;
+}
+.droitediv p{
+    color: black;
+}

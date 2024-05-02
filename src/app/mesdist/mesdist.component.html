@@ -1,0 +1,160 @@
+<h2><span class="chifre01">01</span> Concevoir un service de messagerie distribué</h2><br>
+<p>
+  Dans ce chapitre, nous explorons la conception d'un Service de messagerie électronique distribué. Presque tout le monde utilise une application de messagerie électronique. 
+  La figure 1 montre certaines des applications les plus populaires sur le marché.</p>
+ <br>
+ <img src="../../assets/images/im1.PNG" alt="">
+ <p align="center"><strong>Figure 1</strong></p>
+
+ <br>
+ <p>Concevoir un système qui prend en charge des centaines d'utilisateurs est un défi, et c'est un voyage qui nécessite un raffinement continu et une amélioration sans fin. 
+    Après avoir lu ce chapitre, vous maîtriserez quelques techniques qui vous aideront à déchiffrer les questions d'entretien sur la conception du système de messagerie électronique distribué.
+    </p><br><br>
+    <h2>Step 1 -Compréhension du problème et délimitation du scope de conception </h2>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La messagerie électronique est un moyen de communication très populaire dans le monde des affaires et dans la vie quotidienne. Les entreprises et les organisations dépendent de plus en plus des services de messagerie électronique pour communiquer avec leurs clients, partenaires et employés.
+      Un système de messagerie distribué est un système qui permet l'échange de courriers électroniques entre plusieurs utilisateurs, sans dépendre d'un serveur centralisé. Le but est de permettre une communication efficace et fiable entre les utilisateurs, même en cas de défaillance de certains nœuds du système.
+      La première série de questions de clarification devrait préciser ce que l’intervieweur a à l’esprit exactement lorsqu’il vous demande de concevoir un système de messagerie distribué. À tout le moins, déterminez si vous devriez vous concentrer sur une application de chat en tête-à-tête ou de chat de groupe. Voici quelques questions que vous pourriez vous poser :
+      </p>
+      <ul>
+        <li>Intervieweur : Bonjour, pouvez-vous vous présenter ?</li>
+        <li>Candidate : Bonjour, je m'appelle Marie et je suis développeuse logiciel depuis 5 ans.
+        </li>
+        <li> Intervieweur : Très bien, pouvez-vous nous parler d'un projet que vous avez réalisé dans le domaine des systèmes distribués ?
+        </li>
+        <li>Candidat : Bien sûr, j'ai travaillé sur un projet de système de messagerie distribué pour une entreprise de taille moyenne. J'ai conçu et développé différents modules pour le système, notamment la gestion des messages, la communication entre les nœuds et l'interface utilisateur.
+        </li>
+        <li>Intervieweur : Pouvez-vous nous en dire plus sur la conception du système de messagerie distribuée ?
+        </li>
+        <li>Candidat : Oui, bien sûr. Nous avons commencé par définir les exigences fonctionnelles et non fonctionnelles du système, telles que la gestion des messages, la recherche et le filtrage, la sécurité des échanges, la résilience aux pannes, etc. Ensuite, nous avons conçu une architecture globale pour le système, en définissant les différents modules nécessaires et en tenant compte des contraintes spécifiques du système de messagerie distribué.
+        </li>
+        <li>Intervieweur : Quelles technologies et protocoles avez-vous utilisés pour la mise en œuvre du système ?</li>
+        <li> Candidat : Nous avons utilisé une combinaison de technologies et de protocoles standardisés pour la mise en œuvre des différents modules du système. Par exemple, pour la communication entre les nœuds, nous avons utilisé le protocole de communication TCP/IP. Pour la gestion des messages, nous avons utilisé une base de données NoSQL pour stocker les messages, et pour l'interface utilisateur, nous avons utilisé des technologies web telles que HTML, CSS et JavaScript.
+        </li>
+        <li>Intervieweur : Comment avez-vous assuré la sécurité des échanges dans le système de messagerie distribué ?
+        </li>
+        <li>Candidat : Nous avons mis en place des mesures de sécurité telles que l'utilisation de chiffrement pour protéger les messages lorsqu'ils sont en transit, ainsi que l'authentification et l'autorisation des utilisateurs pour garantir l'intégrité et la confidentialité des messages.
+        </li>
+        <li>Candidat : Quelles sont les caractéristiques importantes ? 
+        </li>
+        <li>Intervieweur : Possibilité de gérer la liste de diffusion ; les tests de spam intégré,   
+        </li>
+        <li>Candidat : Quels clients devons-nous soutenir ? 
+        </li>
+        <li>Intervieweur : applications mobiles, navigateurs Web. 
+        </li>
+        <li>Candidat : Pouvons-nous tirer parti de certaines des infrastructures cloud existantes fournies par Amazon, Google ou Microsoft ? 
+        </li>
+        <li>Intervieweur : C’est une excellente question. Tout construire à partir de zéro est irréaliste pour la plupart des entreprises, il est recommandé de tirer parti de certains des services cloud existants. 
+        </li>
+      </ul>
+      <br>
+      <p>Nous pourrions améliorer les performances du système :
+      </p><br>
+      <ul>
+        <li>  En optimisant les temps de réponse.
+        </li>
+        <li>En réduisant le nombre de réplicas de messages.
+        </li>
+        <li> En étendant le système pour prendre en charge la gestion de pièces jointes volumineuses.
+        </li>
+        <li>  En mettant en œuvre les fonctionnalités avancées telles que le filtrage anti-spam
+        </li>
+        <li>En améliorant l'interface utilisateur pour offrir une expérience utilisateur plus intuitive et personnalisable.Haut du formulaire.
+        </li>
+      </ul><br>
+      <h2>Step 2 -  Proposer une conception de haut niveau</h2>
+      <br>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pour développer une conception de haute qualité, nous devons avoir une connaissance de base de la façon dont les clients et les serveurs communiquent.Dans un système de messagerie électronique distribué, les clients peuvent être des applications mobiles ou des applications Web.
+        Dans un service de messagerie électronique distribué, les clients, à savoir l'expéditeur et le destinataire, interagissent indirectement via les serveurs de messagerie qui stockent et transmettent les emails.
+        Concentrons-nous sur les opérations fondamentales.Ces opérations fondamentales sont essentielles pour assurer le bon fonctionnement d'un service de messagerie électronique distribué et offrir une expérience utilisateur optimale.
+        </p>
+        <br>
+        <p style="color: green;">Envoi d'un email :</p>
+          <br>
+          <p>L'opération d'envoi d'un email implique que l'expéditeur crée un nouveau message et le transmet au serveur de messagerie. Le serveur de messagerie stocke le message dans la base de données distribuée, puis le transmet au serveur de routage pour être acheminé vers le destinataire.</p>
+        <p style="color: green;">Réception d'un email :
+        </p><br>
+        <p>L'opération de réception d'un email implique que le serveur de messagerie du destinataire reçoive le message du serveur de routage et le stocke dans la base de données distribuée. Le client du destinataire peut alors récupérer le message à partir du serveur de messagerie.
+        </p><br>
+    
+        <p style="color: green;">Suppression d'un email :
+        </p><br>
+        <p>L'opération de suppression d'un email implique que le client supprime le message de sa boîte de réception ou de son dossier de stockage. Le serveur de messagerie doit également mettre à jour la base de données distribuée pour supprimer le message.</p>
+
+       
+        <p style="color: green;">Marquage d'un email comme lu ou non lu :
+        </p><br>
+        <p>L'opération de marquage d'un email comme lu ou non lu implique que le client change l'état de lecture du message. Le serveur de messagerie doit également mettre à jour la base de données distribuée pour refléter le nouvel état de lecture du message.
+        </p>
+        
+        <p style="color: green;">Gestion des pièces jointes :
+        </p><br>
+        <p><p>L'opération de gestion des pièces jointes implique que le client joigne un fichier à un email ou récupère une pièce jointe à partir d'un email reçu. Les serveurs de messagerie stockent les pièces jointes dans la base de données distribuée et les transmettent aux clients lorsque nécessaire.
+        </p>
+        <p style="color: green;">Recherche d'emails :
+        </p><br>
+        <p>L'opération de recherche d'emails implique que le client recherche des emails dans sa boîte de réception ou dans un dossier de stockage. Le serveur de messagerie doit fournir une interface de recherche permettant aux clients de rechercher des messages dans la base de données distribuée.</p>
+       
+        <br>
+        <img src="../../assets/images/im2.PNG" alt="">
+        <br>
+        <p align="center"><strong>Figure 2</strong></p>
+        <br>
+        <p>Cette illustration montre deux clients de messagerie qui envoient et reçoivent des emails via deux serveurs de messagerie. Les serveurs de messagerie sont connectés à des bases de données mail distribuées pour le stockage des emails, ainsi qu'à des serveurs de routage pour l'acheminement des emails.
+        </p><br>
+        <p>Le processus d'envoi d'un e-mail commence par l'expéditeur qui compose un e-mail dans son client de messagerie et appuie sur le bouton "Envoyer". Le client de messagerie de l'expéditeur envoie ensuite l'e-mail au serveur de messagerie électronique, qui stocke l'e-mail dans la base de données mail distribuée.
+        </p><br>
+        <p>Le processus de réception d'un e-mail commence par le destinataire qui consulte sa boîte de réception dans son client de messagerie. Le client de messagerie du destinataire se connecte ensuite au serveur de messagerie électronique pour récupérer les nouveaux e-mails. Le serveur de messagerie électronique envoie ensuite les e-mails correspondants au client de messagerie du destinataire.
+        </p><br>
+        <img src="../../assets/images/im3.PNG" alt="">
+        <p align="center"><strong>Figure 3</strong></p>
+        <br>
+        <p>Le service de messagerie distribué doit être construit sur une architecture de type client-serveur, où le client est un utilisateur de messagerie qui envoie et reçoit des emails, et le serveur est le système qui stocke et traite les emails. Le serveur doit être distribué pour permettre une haute disponibilité et une tolérance aux pannes dans cette optique nous avons :</p>
+        <br>
+        <ul>
+            <li><strong>Stockage des données :</strong></li>
+            <p>Les emails doivent être stockés dans une base de données distribuée pour permettre une répartition de charge et une haute disponibilité. La base de données doit être conçue pour être scalable, pour pouvoir s'adapter à l'augmentation du nombre d'utilisateurs et de messages.
+            </p><br>
+            <li><strong>Protocoles :</strong></li>
+            <p>Le service de messagerie doit prendre en charge les protocoles SMTP, IMAP et POP3 pour permettre aux utilisateurs d'envoyer et de recevoir des emails depuis différents clients de messagerie. Le protocole SMTP sera utilisé pour l'envoi d'emails, tandis que les protocoles IMAP et POP3 seront utilisés pour la récupération des emails.</p>
+           <br> <li><strong>Sécurité :</strong></li>
+            <p>Le service de messagerie doit être conçu avec des mécanismes de sécurité pour garantir la confidentialité, l'intégrité et la disponibilité des données. Les données doivent être chiffrées en transit et au repos, et des mécanismes d'authentification et d'autorisation doivent être mis en place pour empêcher l'accès non autorisé aux emails.
+            </p><br>
+            <li><strong>Routage des emails :</strong></li>
+            <p>Routage des emails :
+            </p><br>
+            <li><strong>Interface utilisateur :
+            </strong></li>
+            <p>Le service de messagerie doit être doté d'une interface utilisateur conviviale pour permettre aux utilisateurs d'envoyer et de recevoir des emails facilement. L'interface utilisateur doit être disponible sur différentes plateformes, y compris les navigateurs Web et les applications mobiles.
+            </p>
+            <br>
+            <li><strong>Serveurs de messagerie :
+            </strong></li>
+            <p> Les serveurs de messagerie sont au cœur du service de messagerie électronique distribué. Ils sont responsables de la gestion de la livraison des e-mails entre les différents clients. Les serveurs de messagerie sont répartis sur plusieurs machines pour améliorer la résilience et la disponibilité du service.
+            </p><br>
+            <li><strong>Serveurs de gestion des identités :
+            </strong></li>
+            <p> Les serveurs de gestion des identités sont responsables de la gestion des identités et des accès des utilisateurs du service de messagerie électronique. Ils vérifient l'identité des utilisateurs pour s'assurer que seuls les utilisateurs autorisés peuvent accéder au service.
+            </p><br>
+            <li><strong>Infrastructure de réseau :
+            </strong></li>
+            <p> L'infrastructure de réseau est responsable de la connectivité entre les différents clients et serveurs de messagerie. Elle peut inclure des routeurs, des commutateurs, des pare-feu et d'autres composants pour garantir une connectivité stable et sécurisée entre les différents éléments du service de messagerie électronique distribué.
+            </p>
+            <br>
+            <h2>Conception de haut niveau
+            </h2><br>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Comme citer plus haut pour une conception de haut niveau et schématiser nous nous baserons sur ces différents modules pour vous permettre de réaliser un service de messagerie électronique distribué.
+                Module d'authentification : Ce module gère l'authentification des utilisateurs pour accéder au service de messagerie. Il gère les informations d'identification de l'utilisateur, comme les noms d'utilisateur et les mots de passe, et les vérifie avant de permettre l'accès au système.</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de messagerie : Ce module est responsable de la création, de l'envoi et de la réception de messages électroniques entre les utilisateurs. Il utilise les protocoles de messagerie standard, tels que SMTP, IMAP et POP3, pour communiquer avec d'autres serveurs de messagerie électronique.
+                </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de stockage : Ce module est responsable du stockage et de la gestion des messages électroniques reçus par les utilisateurs. Il peut utiliser une base de données ou un système de fichiers pour stocker les messages et les informations de l'utilisateur.
+                </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de routage : Ce module est responsable de la gestion du routage des messages électroniques entre les différents serveurs de messagerie électronique. Il utilise des algorithmes de routage pour déterminer le meilleur chemin pour les messages en fonction de la destination, du trafic et des contraintes de connectivité.
+                </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de sécurité : Ce module est responsable de la gestion de la sécurité du service de messagerie électronique. Il gère les connexions sécurisées, l'authentification des utilisateurs et la protection contre les attaques de sécurité telles que les attaques par déni de service (DDoS) et les attaques de phishing.
+                </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de gestion des utilisateurs : Ce module est responsable de la gestion des comptes d'utilisateur, y compris la création, la suppression et la modification des comptes d'utilisateur. Il permet également la gestion des paramètres utilisateur tels que les filtres de messagerie et les paramètres de notification.
+                </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module de reporting : Ce module est responsable de la collecte et de la présentation des données de service pour permettre une analyse et une amélioration continue du service de messagerie électronique. Il collecte des données sur les performances du système, le trafic de messagerie, les erreurs de transmission et les problèmes de connectivité.
+                </p>
+        </ul>
